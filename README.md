@@ -46,3 +46,7 @@ Please file feature requests and bugs at the [issue tracker][tracker].
 2. thingsboard_client-1.0.4\lib\src\model\device_models.dart  
    在device中增加userId字段等，适配设备分配逻辑变化后的设备信息  
    新增：customerId 对应位置增加 userId 共四处
+3. 第2个修改后有bug，缺少文件，无法编译成功  
+   添加has_user_id.dart文件。  
+   在device_models.dart中导入has_user_id.dart和id/user_id.dart，在Device类名部分，HasCustomerId后增加HasUserId。  
+   修改后，可编译成功。
