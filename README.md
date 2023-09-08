@@ -34,3 +34,15 @@ main() async {
 Please file feature requests and bugs at the [issue tracker][tracker].
 
 [tracker]: https://github.com/thingsboard/dart_thingsboard_client/issues
+
+## 修改日志
+1. thingsboard_client-1.0.4\lib\src\service\device_service.dart  
+   增加设备与user的对应函数，适配设备分配逻辑的变化  
+   新增函数：
+   - assignDeviceToUser 对应 assignDeviceToCustomer
+   - unassignDeviceFromUser 对应 unassignDeviceFromCustomer
+   - getUserDevices 对应 getCustomerDevices
+   - getUserDeviceInfos 对应 getCustomerDeviceInfos
+2. thingsboard_client-1.0.4\lib\src\model\device_models.dart  
+   在device中增加userId字段等，适配设备分配逻辑变化后的设备信息  
+   新增：customerId 对应位置增加 userId 共四处
