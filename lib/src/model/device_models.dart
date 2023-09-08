@@ -14,8 +14,10 @@ import 'additional_info_based.dart';
 import 'base_data.dart';
 import 'has_name.dart';
 import 'has_customer_id.dart';
+import 'has_user_id.dart';
 import 'has_tenant_id.dart';
 import 'id/customer_id.dart';
+import 'id/user_id.dart';
 import 'id/device_id.dart';
 import 'id/rule_chain_id.dart';
 import 'id/tenant_id.dart';
@@ -771,6 +773,7 @@ class Device extends AdditionalInfoBased<DeviceId>
         HasName,
         HasTenantId,
         HasCustomerId,
+        HasUserId,
         HasOtaPackage,
         ExportableEntity<DeviceId> {
   TenantId? tenantId;
