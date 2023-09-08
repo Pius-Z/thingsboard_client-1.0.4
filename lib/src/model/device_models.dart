@@ -775,6 +775,7 @@ class Device extends AdditionalInfoBased<DeviceId>
         ExportableEntity<DeviceId> {
   TenantId? tenantId;
   CustomerId? customerId;
+  UserId? userId;
   String name;
   String type;
   String? label;
@@ -790,6 +791,9 @@ class Device extends AdditionalInfoBased<DeviceId>
       : tenantId = TenantId.fromJson(json['tenantId']),
         customerId = json['customerId'] != null
             ? CustomerId.fromJson(json['customerId'])
+            : null,
+        userId = json['userId'] != null
+            ? UserId.fromJson(json['userId'])
             : null,
         name = json['name'],
         type = json['type'],
@@ -815,6 +819,9 @@ class Device extends AdditionalInfoBased<DeviceId>
     }
     if (customerId != null) {
       json['customerId'] = customerId!.toJson();
+    }
+    if (userId != null) {
+      json['userId'] = userId!.toJson();
     }
     json['name'] = name;
     json['type'] = type;
@@ -858,6 +865,11 @@ class Device extends AdditionalInfoBased<DeviceId>
   }
 
   @override
+  UserId? getUserId() {
+    return userId;
+  }
+
+  @override
   OtaPackageId? getFirmwareId() {
     return firmwareId;
   }
@@ -883,7 +895,7 @@ class Device extends AdditionalInfoBased<DeviceId>
   }
 
   String deviceString([String? toStringBody]) {
-    return '${additionalInfoBasedString('tenantId: $tenantId, customerId: $customerId, name: $name, type: $type, '
+    return '${additionalInfoBasedString('tenantId: $tenantId, customerId: $customerId, userId: $userId, name: $name, type: $type, '
         'label: $label, deviceProfileId: $deviceProfileId, firmwareId: $firmwareId, softwareId: $softwareId, deviceData: $deviceData, externalId: $externalId${toStringBody != null ? ', ' + toStringBody : ''}')}';
   }
 }
