@@ -81,6 +81,22 @@ class DeviceService {
     );
   }
 
+  
+  // add user
+  Future<Device?> assignDeviceToUser(String userId, String deviceId,
+      {RequestConfig? requestConfig}) async {
+    return nullIfNotFound(
+      (RequestConfig requestConfig) async {
+        var response = await _tbClient.post<Map<String, dynamic>>(
+            '/api/user/$userId/device/$deviceId',
+            options: defaultHttpOptionsFromConfig(requestConfig));
+        return response.data != null ? Device.fromJson(response.data!) : null;
+      },
+      requestConfig: requestConfig,
+    );
+  }
+
+
   Future<Device?> unassignDeviceFromCustomer(String deviceId,
       {RequestConfig? requestConfig}) async {
     return nullIfNotFound(
@@ -93,6 +109,21 @@ class DeviceService {
       requestConfig: requestConfig,
     );
   }
+
+  // add user
+  Future<Device?> unassignDeviceFromUser(String deviceId,
+      {RequestConfig? requestConfig}) async {
+    return nullIfNotFound(
+      (RequestConfig requestConfig) async {
+        var response = await _tbClient.delete<Map<String, dynamic>>(
+            '/api/user/device/$deviceId',
+            options: defaultHttpOptionsFromConfig(requestConfig));
+        return response.data != null ? Device.fromJson(response.data!) : null;
+      },
+      requestConfig: requestConfig,
+    );
+  }
+
 
   Future<Device?> assignDeviceToPublicCustomer(String deviceId,
       {RequestConfig? requestConfig}) async {
@@ -158,6 +189,19 @@ class DeviceService {
     return _tbClient.compute(parseDevicePageData, response.data!);
   }
 
+  // add user
+  Future<PageData<Device>> getUserDevices(
+      String userId, PageLink pageLink,
+      {String type = '', RequestConfig? requestConfig}) async {
+    var queryParams = pageLink.toQueryParameters();
+    queryParams['type'] = type;
+    var response = await _tbClient.get<Map<String, dynamic>>(
+        '/api/user/$userId/devices',
+        queryParameters: queryParams,
+        options: defaultHttpOptionsFromConfig(requestConfig));
+    return _tbClient.compute(parseDevicePageData, response.data!);
+  }
+
   Future<PageData<DeviceInfo>> getCustomerDeviceInfos(
       String customerId, PageLink pageLink,
       {String type = '',
@@ -168,6 +212,22 @@ class DeviceService {
     queryParams['deviceProfileId'] = deviceProfileId;
     var response = await _tbClient.get<Map<String, dynamic>>(
         '/api/customer/$customerId/deviceInfos',
+        queryParameters: queryParams,
+        options: defaultHttpOptionsFromConfig(requestConfig));
+    return _tbClient.compute(parseDeviceInfoPageData, response.data!);
+  }
+
+  // add user
+  Future<PageData<DeviceInfo>> getUserDeviceInfos(
+      String userId, PageLink pageLink,
+      {String type = '',
+      String deviceProfileId = '',
+      RequestConfig? requestConfig}) async {
+    var queryParams = pageLink.toQueryParameters();
+    queryParams['type'] = type;
+    queryParams['deviceProfileId'] = deviceProfileId;
+    var response = await _tbClient.get<Map<String, dynamic>>(
+        '/api/user/$userId/deviceInfos',
         queryParameters: queryParams,
         options: defaultHttpOptionsFromConfig(requestConfig));
     return _tbClient.compute(parseDeviceInfoPageData, response.data!);
